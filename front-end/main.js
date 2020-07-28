@@ -1,8 +1,9 @@
 const readline = require('readline');
 const fs = require('fs');
+const path = require('path')
 
 
-const todos = [];
+let todos = [];
 const interface = readline.createInterface({input: process.stdin, output: process.stdout})
 const menu = `
 Your options are:
@@ -16,23 +17,17 @@ Your options are:
 `
 
 const loadTodos = function() {
-  todos.splice(0);
-  const file = fs.readFileSync('./todos.csv', 'utf8');
-  const rows = file.split('\n');
-  for (const rowString of rows) {
-    const todo = rowString.split(',')
-    todos.push(todo);
-  }
+  const jsonData = path.join(__dirname, '../back-end/todos.json')
+  const file = fs.readFileSync(jsonData, 'utf8');
+  const rows = JSON.parse(file);
+  todos = rows
+  return todos
 }
 
 const saveTodos = function() {
-  const rowStrings = [];
-  for (const todo of todos) {
-    rowStrings.push(todo[0] + ',' + todo[1]);
-  }
+  const jsonData = path.join(__dirname, '../back-end/todos.json')
 
-  const newContents = rowStrings.join('\n');
-  fs.writeFileSync('./todos.csv', newContents);
+  fs.writeFileSync(jsonData, newContents);
 }
 
 const displayTodos = function(shouldPrintNumber) {
@@ -61,7 +56,7 @@ const displayTodos = function(shouldPrintNumber) {
 }
 
 const add = function(text) {
-  const todo = [text, 'uncomplete'];
+  let todo = [text, 'uncomplete'];
   todos.push(todo);
   saveTodos();
   displayTodos(false);
