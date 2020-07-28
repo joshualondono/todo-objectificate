@@ -26,7 +26,8 @@ const loadTodos = function() {
 
 const saveTodos = function() {
   const jsonData = path.join(__dirname, '../back-end/todos.json')
-
+  todos = todos.todos
+  const newContents = JSON.stringify(todos) 
   fs.writeFileSync(jsonData, newContents);
 }
 
