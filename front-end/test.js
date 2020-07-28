@@ -15,18 +15,20 @@ Your options are:
 `
 
 const loadTodos = function() {
-  const jsonData = path.join(__dirname, '../back-end/todos.json')
+  const jsonData = path.join(__dirname, '../back-end/todos.json');
   const file = fs.readFileSync(jsonData, 'utf8');
   const rows = JSON.parse(file);
-  todos = rows
-  return todos
+  todos = rows;
+  return todos;
 }
 
 const saveTodos = function() {
-  const jsonData = path.join(__dirname, '../back-end/todos.json')
-  const file = fs.readFileSync(jsonData, 'utf8');
-  const newContents = JSON.stringify(loadTodos().todos)
-  fs.writeFileSync(file, newContents);
+  const newContents = JSON.stringify(loadTodos());
+  const jsonData = path.join(__dirname, '../back-end/todos.json');
+  return fs.writeFileSync(jsonData, newContents);
 }
-console.log(loadTodos())
-console.log(saveTodos())
+
+
+
+console.log(loadTodos());
+console.log(saveTodos());
